@@ -1,17 +1,18 @@
-pragma solidity ^0.4.24;
+pragma solidity 0.5.1;
 
 contract MyContract {
-    string value;
+    enum State { Waiting, Ready, Active }
+    State public state;
 
     constructor() public {
-        value = "myValue";
+        state = State.Waiting;
     }
 
-    function get() public view returns(string){
-        return value;
+    function activate() public {
+        state = State.Active;
     }
 
-    function set(string new_value) public {
-        value = new_value;
+    function isActive() public view returns(bool){
+        return state == State.Active;
     }
 }
