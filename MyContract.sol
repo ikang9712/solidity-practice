@@ -24,8 +24,7 @@ contract MyContract {
 
     function buyToken() public payable {
         // check whether it is deployed
-        ERC20Token _token = ERC20Token(address(token));
-        _token.mint();
+        ERC20Token(address(token)).mint();
         wallet.transfer(msg.value);
     }
 }
