@@ -1,30 +1,18 @@
 pragma solidity 0.5.1;
 
-contract ERC20Token {
-    string public name;
-    mapping(address => uint256) public balances;
-
-    constructor(string memory _name) public {
-        name = _name;
-    }
-
-    function mint() public {
-        balances[tx.origin] ++;
+library Math {
+    function divide(uint256 a, uint256 b) internal pure returns (uint256){
+        require(b > 0);
+        uint256 c = a/b;
+        return c;
     }
 }
 
-contract MyToken is ERC20Token {
-    string public symbol; 
-    address[] public owners; 
-    uint256 ownerCount; 
+contract MyContract {
+    uint256 public value;
 
-    constructor(string memory _name, string memory _symbol) ERC20Token(_name) public {
-        symbol = _symbol;
-    }
-
-    function mint() public {
-        super.mint();
-        ownerCount ++;
-        owners.push(msg.sender);
+    function calculate(uint _value1, uint _value2) public {
+        value = Math.divide(_value1,_value2);
+        
     }
 }
