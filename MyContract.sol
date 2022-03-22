@@ -11,6 +11,15 @@ contract MyContract {
         _;
     }
 
+    // epoch time
+    // https://www.epochconverter.com/
+    uint256 openingTime = 1997907792; 
+
+    modifier onlyWhileOpen() {
+        require(block.timestamp >= openingTime);
+        _;
+    }
+
     struct Person {
         uint _id;
         string _firstName;
@@ -21,7 +30,7 @@ contract MyContract {
         owner = msg.sender;
     }
 
-    function addPerson(string memory _firstName, string memory _lastName) public onlyOwner {
+    function addPerson(string memory _firstName, string memory _lastName) public onlyWhileOpen {
         people[peopleCount] = Person(peopleCount, _firstName, _lastName);
         incrementCount();
     }
