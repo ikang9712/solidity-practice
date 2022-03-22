@@ -1,41 +1,17 @@
 pragma solidity 0.5.1;
 
 contract MyContract {
-    mapping(uint => Person) public people;
-    uint256 public peopleCount = 0;
+    mapping(address => uint256) public balances;
+    address payable wallet;
 
-    address owner;
-
-    modifier onlyOwner() {
-        require(msg.sender == owner);
-        _;
+    constructor(address payable _wallet) public {
+        wallet = _wallet;
     }
 
-    // epoch time
-    // https://www.epochconverter.com/
-    uint256 openingTime = 1997907792; 
-
-    modifier onlyWhileOpen() {
-        require(block.timestamp >= openingTime);
-        _;
-    }
-
-    struct Person {
-        uint _id;
-        string _firstName;
-        string _lastName;
-    }
-
-    constructor() public {
-        owner = msg.sender;
-    }
-
-    function addPerson(string memory _firstName, string memory _lastName) public onlyWhileOpen {
-        people[peopleCount] = Person(peopleCount, _firstName, _lastName);
-        incrementCount();
-    }
-
-    function incrementCount() internal {
-        peopleCount += 1;
+    function buyToken() public payable {
+        // buy a token
+        balances[msg.sender] += 1;
+        // send ether to the wallet
+        wallet.transfer(msg.value);
     }
 }
