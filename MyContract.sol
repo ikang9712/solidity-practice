@@ -4,27 +4,27 @@ contract ERC20Token {
     string public name;
     mapping(address => uint256) public balances;
 
+    constructor(string memory _name) public {
+        name = _name;
+    }
+
     function mint() public {
         balances[tx.origin] ++;
     }
 }
 
-contract MyContract {
-    address payable wallet;
-    address public token;
+contract MyToken is ERC20Token {
+    string public symbol; 
+    address[] public owners; 
+    uint256 ownerCount; 
 
-    constructor(address payable _wallet, address _token) public {
-        wallet = _wallet;
-        token = _token;
+    constructor(string memory _name, string memory _symbol) ERC20Token(_name) public {
+        symbol = _symbol;
     }
 
-    function() external payable {
-        buyToken();
-    }
-
-    function buyToken() public payable {
-        // check whether it is deployed
-        ERC20Token(address(token)).mint();
-        wallet.transfer(msg.value);
+    function mint() public {
+        super.mint();
+        ownerCount ++;
+        owners.push(msg.sender);
     }
 }
